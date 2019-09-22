@@ -1,18 +1,34 @@
-package com.pl.car;
+package com.pl.car.dao;
 
+import javax.persistence.*;
+
+@Entity
 public class Car {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     String model;
     Long price;
-    Color color;
 
-    public Car() {
-    }
+    @Enumerated(EnumType.STRING)
+    Color color;
 
     public Car(String model, Long price, Color color) {
         this.model = model;
         this.price = price;
         this.color = color;
+    }
+
+    public Car() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getModel() {

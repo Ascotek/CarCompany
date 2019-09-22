@@ -45,17 +45,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http.httpBasic().and().authorizeRequests()
-                .antMatchers("/hello").permitAll()
-                .antMatchers(HttpMethod.GET,"/car").permitAll()
-                .antMatchers(HttpMethod.POST,"/car").hasRole("MAKER")
-                .antMatchers(HttpMethod.POST,"/car").hasRole("ADMIN")
-                .anyRequest().hasRole("ADMIN")
+                .antMatchers("/").permitAll().and()
+                .authorizeRequests().antMatchers("/console/**").permitAll()
+                .and().authorizeRequests()
+                .antMatchers(HttpMethod.GET,"/CarCompany/all").hasRole("CLIENT")
+                .antMatchers(HttpMethod.POST,"/CarCompany").hasRole("MAKER")
+                .antMatchers(HttpMethod.PUT,"/CarCompany").hasRole("PAINTER")
+                .antMatchers(HttpMethod.PUT,"/CarCompany").hasRole("OWNER")
+                .anyRequest().permitAll()
                 .and()
                 .formLogin().permitAll()
                 .and()
                 .logout().permitAll()
                 .and()
                 .csrf().disable();
+        http.headers().frameOptions().disable();
     }
 
 
